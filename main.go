@@ -6,6 +6,23 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func newRouter() *mux.Router {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello World!")
+	})
+
+	r.HandleFunc("/books", getBooks).Methods("GET")
+	r.HandleFunc("/books/{id}", getBookById).Methods("GET")
+
+	r.HandleFunc("/book", createBook).Methods("POST")
+	r.HandleFunc("/book/{id}", updateBook).Methods("PUT")
+	r.HandleFunc("/book/{id}", deleteBook).Methods("DELETE")
+
+	return r
+}
+
 func main() {
 	// create router handler
 	router := mux.NewRouter()
